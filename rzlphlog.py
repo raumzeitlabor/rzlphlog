@@ -47,6 +47,7 @@ def normalize(string):
 	return string
 
 def create_entry_file(dirname, name, title, published, author, content):
+	content = content.rstrip('\r\n')
 	d = { "name" : name, "title" : title, "published" : published,
 		"author" : author, "content" : content }
 	entryfile = os.path.join(dirname, name)
