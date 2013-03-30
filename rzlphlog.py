@@ -98,7 +98,6 @@ def create_phlog(feedurl, dirname):
 	cleanup_entryfiles(dirname, entryfiles)
 
 if __name__ == "__main__":
-	d = ""
 	argparser = argparse.ArgumentParser(
 		description='Create a phlog from the RaumZeitLabor feed.')
 	argparser.add_argument('--dir', '-d', dest='dir', default=os.getcwd(),
