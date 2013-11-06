@@ -38,7 +38,13 @@ def normalize(string):
 	return string
 
 def create_gophermap(dirname, json):
-	d = { 'tuer' : 'offen' if json['details']['tuer'] else 'geschlossen',
+	tuer = "unbekannt"
+	if json['details']['tuer'] == 1:
+		tuer = "offen"
+	elif json['details']['tuer'] == 0:
+		tuer = "geschlossen"
+
+	d = { 'tuer' : tuer,
 		'geraete' : json['details']['geraete'],
 		'laboranten' : '\n'.join('    {0}'.format(n)
 				for n
@@ -46,7 +52,7 @@ def create_gophermap(dirname, json):
 			if len(json['details']['laboranten'])
 			else '    (niemand)'
 		}
-	gophermap = os.path.join(dirname, 'gophermap');
+	gophermap = os.path.join(dirname, 'gophermap')
 	with open(gophermap, 'w') as file:
 		file.write(GOPHERMAPTEMPLATE.substitute(d))
 
