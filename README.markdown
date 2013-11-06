@@ -6,4 +6,5 @@ A collection of small hacks to populate the
 
 * rzlphlog.py: Generates a phlog from the RaumZeitLabor RSS feed
 * rzlevents.py: Generates a gophermap from the RaumZeitLabor ical feed
+* rzlstatus.py: Generates a gophermap from the RaumZeitLabor status
 
