@@ -5,6 +5,7 @@ import string
 import argparse
 import os.path
 import json
+import datetime
 
 STATUSURI = 'https://status.raumzeitlabor.de/api/full.json'
 
@@ -26,6 +27,7 @@ Identifizierte kohlenstoffbasierte Lebensformen:
 
 $laboranten
 
+                    ($datetime)
 =================================================================
 """)
 
@@ -44,13 +46,17 @@ def create_gophermap(dirname, json):
 	elif json['details']['tuer'] == 0:
 		tuer = "geschlossen"
 
+	laboranten = json['details']['laboranten']
+	if len(laboranten) > 0:
+		laboranten.sort()
+	else:
+		laboranten.add("(niemand)")
+
 	d = { 'tuer' : tuer,
 		'geraete' : json['details']['geraete'],
-		'laboranten' : '\n'.join('    {0}'.format(n)
-				for n
-				in json['details']['laboranten'])
-			if len(json['details']['laboranten'])
-			else '    (niemand)'
+		'laboranten' : '\n'.join('    {0}'.format(name)
+				for name in laboranten),
+		'datetime' : datetime.datetime.now().strftime('%c')
 		}
 	gophermap = os.path.join(dirname, 'gophermap')
 	with open(gophermap, 'w') as file:
