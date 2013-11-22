@@ -41,9 +41,9 @@ def normalize(string):
 
 def create_gophermap(dirname, json):
 	tuer = "unbekannt"
-	if json['details']['tuer'] == 1:
+	if json['details']['tuer'] == '1':
 		tuer = "offen"
-	elif json['details']['tuer'] == 0:
+	elif json['details']['tuer'] == '0':
 		tuer = "geschlossen"
 
 	laboranten = json['details']['laboranten']
