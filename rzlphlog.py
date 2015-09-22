@@ -10,8 +10,12 @@ import fnmatch
 import os
 import argparse
 import os.path
+import ssl
 
-FEED = 'https://raumzeitlabor.de/feed/'
+if hasattr(ssl, '_create_unverified_context'):
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+FEED = 'https://raumzeitlabor.de/feed.xml'
 
 ENTRYTEMPLATE = string.Template(
 """== $title ==
@@ -70,7 +74,7 @@ def cleanup_entryfiles(dirname, currentfiles):
 
 def create_phlog(feedurl, dirname):
 	feed = feedparser.parse(feedurl)
-	
+
 	entryfiles = []
 	gophermaplines = []
 	for entry in feed.entries:
@@ -80,17 +84,9 @@ def create_phlog(feedurl, dirname):
 		name = normalize(name)
 		title = normalize(entry.title)
 		published = normalize(entry.published)
-		author = normalize(entry.author)
-		text = ""
-		for content in [content.value
-				for content
-				in entry.content
-				if content.type == 'text/html']:
-			text = normalize(html2text.html2text(content, feedurl))
-			break
-		if not text:
-			text = normalize(html2text.html2text(entry.description))
-		create_entry_file(dirname, name, title, published, author, text)
+		author = normalize(entry.author_detail.name)
+		body = normalize(html2text.html2text(entry.description))
+		create_entry_file(dirname, name, title, published, author, body)
 		gophermapline = u"0{0}: {1}\t{2}\t+\t+".format(entry.published,
 			entry.title, name)
 		gophermaplines.append(normalize(gophermapline))

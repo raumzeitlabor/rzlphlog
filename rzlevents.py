@@ -5,6 +5,10 @@ import urllib
 import argparse
 import string
 import os.path
+import ssl
+
+if hasattr(ssl, '_create_unverified_context'):
+    ssl._create_default_https_context = ssl._create_unverified_context
 
 ICAL = 'https://raumzeitlabor.de/events.ics'
 

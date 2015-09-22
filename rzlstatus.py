@@ -6,6 +6,10 @@ import argparse
 import os.path
 import json
 import datetime
+import ssl
+
+if hasattr(ssl, '_create_unverified_context'):
+    ssl._create_default_https_context = ssl._create_unverified_context
 
 STATUSURI = 'https://status.raumzeitlabor.de/api/full.json'
 
